@@ -16,6 +16,8 @@ for i, files in enumerate(onlyfiles):
         Labels.append(i)
 
 Labels = np.asarray(Labels, dtype=np.int32)
+# Create the LBPH face recognizer
 model = cv2.face.LBPHFaceRecognizer_create()
 model.train(np.asarray(Training_Data), np.asarray(Labels))
+model.save('trained_model.xml')
 print("Model is trained successfully")
