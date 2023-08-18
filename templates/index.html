@@ -1,16 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Face Detection</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Face Recognition</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        
+        h1 {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        #video-container {
+            display: flex;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        
+        #video-stream {
+            border: 2px solid #333;
+            margin-top: 20px;
+        }
+        
+        #status-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Face Detection in Browser</h1>
-        <img class="video-frame" src="{{ url_for('video_feed') }}">
-        <button id="lock-button">Lock</button>
+    <h1>Face Recognition System</h1>
+    <div id="video-container">
+        <img id="video-stream" src="{{ url_for('video_feed') }}" width="640" height="480">
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-    <script src="{{ url_for('static', filename='main.js') }}"></script>
+    <div id="status-container">
+        <p id="status">Status: Loading...</p>
+    </div>
+    <script>
+        function getStatus() {
+            $.get("/get_status", function(data) {
+                $("#status").text("Status: " + data.status);
+            });
+        }
+
+        // Call getStatus function every 10 seconds
+        setInterval(getStatus, 10000);
+    </script>
 </body>
 </html>
