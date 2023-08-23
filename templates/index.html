@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Face Recognition</title>
+    <title>Face Recognition Kiosk</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,12 +34,13 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <h1>Face Recognition System</h1>
+    <h1>Face Lock</h1>
     <div id="video-container">
         <img id="video-stream" src="{{ url_for('video_feed') }}" width="640" height="480">
     </div>
     <div id="status-container">
         <p id="status">Status: Loading...</p>
+        <button id="lock-button" onclick="toggleLock()">Toggle Lock</button>
     </div>
     <script>
         function getStatus() {
@@ -48,7 +49,15 @@
             });
         }
 
-        // Call getStatus function every 10 seconds
+        function toggleLock() {
+            $.post("/toggle_lock", { password: "your_secret_password" }, function(data, status) {
+                if (status === "success") {
+                    getStatus();
+                } else {
+                    alert("Authentication failed.");
+                }
+            });
+        }
         setInterval(getStatus, 10000);
     </script>
 </body>
